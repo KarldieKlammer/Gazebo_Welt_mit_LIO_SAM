@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<robot name="prius_sim" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Fahrzeugbasis – entspricht dem chassis-Link des Gazebo-Prius-Modells.
+       LIO-SAM veröffentlicht odom → chassis als Odometrie-Ausgabe. -->
+  <link name="chassis"/>
+
+  <!-- Ouster OS1-128 auf dem Dach (z = 1.65 m über chassis) -->
+  <link name="ouster_lidar_link"/>
+  <joint name="chassis_to_ouster" type="fixed">
+    <parent link="chassis"/>
+    <child link="ouster_lidar_link"/>
+    <origin xyz="0 0 1.65" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Ouster-interne Frames – werden von lio_sam_imageProjection benötigt -->
+  <link name="os_sensor"/>
+  <joint name="ouster_to_os_sensor" type="fixed">
+    <parent link="ouster_lidar_link"/>
+    <child link="os_sensor"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="os_lidar"/>
+  <joint name="os_sensor_to_os_lidar" type="fixed">
+    <parent link="os_sensor"/>
+    <child link="os_lidar"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- IMU (z = 0.50 m über chassis, Fahrzeugmitte) -->
+  <link name="imu_link"/>
+  <joint name="chassis_to_imu" type="fixed">
+    <parent link="chassis"/>
+    <child link="imu_link"/>
+    <origin xyz="0 0 0.5" rpy="0 0 0"/>
+  </joint>
+
+</robot>
