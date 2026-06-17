@@ -1,6 +1,41 @@
 # autonomous_driving
 
-ROS2-Paket für die Gazebo-Simulation des Aeris-Roboters. Enthält die Simulationswelt, Launch-Files, URDF-Modell und Hilfs-Nodes die Lücken zwischen dem Gazebo-Plugin und LIO-SAM schließen.
+ROS2-Paket für die Gazebo-Simulation und die Nav2-basierte Trajektorienplanungs-Pipeline des Aeris-Roboters. Enthält die Simulationswelt, Launch-Files, URDF-Modell und Hilfs-Nodes die Lücken zwischen dem Gazebo-Plugin und LIO-SAM schließen.
+
+---
+
+## Nav2-Pipeline (in Entwicklung)
+
+Ziel: Vollständige Trajektorienplanung für autonomes Fahren in der Gazebo-Simulationsumgebung.
+Architekturentscheidung: → [ADR-001](../../docs/adr/ADR_001_trajektorienplanung_pipeline_projektstart.md)
+
+### Integrationsarchitektur
+
+```
+LIO-SAM /lio_sam/mapping/odometry  ──► Nav2 Lokalisierung (ersetzt AMCL)
+LIO-SAM /lio_sam/mapping/map       ──► Nav2 Map Server
+
+[noch zu entwickeln: Costmap-Quelle, eigenes Package]
+    └─► Nav2 Costmap2D
+
+Nav2 Planner Server    ──► globaler Pfad  (Algorithmus: noch offen)
+Nav2 Controller Server ──► lokale Trajektorie (MPPI geplant)
+    └─► /cmd_vel  ──► Fahrzeugsteuerung (Ackermann)
+```
+
+### Geplante Komponenten
+
+| Komponente | Nav2-Rolle | Status |
+|---|---|---|
+| LIO-SAM Odometrie | Lokalisierung (map→odom TF) | zu integrieren |
+| LIO-SAM Map | Statische Karte für globale Planung | zu integrieren |
+| Costmap-Package | Costmap2D-Quelle | Package noch ausstehend |
+| Nav2 Planner Server | Globale Pfadplanung | zu konfigurieren |
+| Nav2 Controller Server | Lokale Trajektorie (MPPI) | zu konfigurieren |
+| Nav2 BT Navigator | Verhaltenssteuerung | zu konfigurieren |
+
+### Neue Packages
+Sobald neue Packages für Nav2-Komponenten erstellt werden, werden sie hier verlinkt und in `src/CLAUDE.md` eingetragen.
 
 Konfigurationsdatei: `config/params_sim.yaml`
 
