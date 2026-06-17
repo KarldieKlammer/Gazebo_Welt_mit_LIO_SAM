@@ -54,6 +54,7 @@ def generate_launch_description():
             '/ouster/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked',
             '/imu/data@sensor_msgs/msg/Imu[gz.msgs.IMU',
             '/model/prius_hybrid/odometry@nav_msgs/msg/Odometry[gz.msgs.Odometry',
+            '/cmd_vel@geometry_msgs/msg/Twist]gz.msgs.Twist',
         ],
         parameters=[{'use_sim_time': True}],
         output='screen',
@@ -210,26 +211,6 @@ def generate_launch_description():
         output='screen',
     )
 
-    # # ------------------------------------------------------------------
-    # # Teleop Twist Keyboard
-    # # Steuerung über Terminal-Tastatureingabe.
-    # # Geschwindigkeit im Terminal mit q/z (linear) und w/x (angular) ändern.
-    # # Forward:  speed      = 5.0 m/s  (~18 km/h)
-    # # Yaw:      turn       = 0.4 rad/s
-    # # ------------------------------------------------------------------
-    # teleop = Node(
-    #     package='teleop_twist_keyboard',
-    #     executable='teleop_twist_keyboard',
-    #     name='teleop_twist_keyboard',
-    #     remappings=[('cmd_vel', '/cmd_vel')],
-    #     parameters=[{
-    #         'speed': 10.0,
-    #         'turn':  0.5,
-    #     }],
-    #     output='screen',
-    #     prefix='gnome-terminal --',
-    # )
-
     # ------------------------------------------------------------------
     # RViz
     # ------------------------------------------------------------------
@@ -256,6 +237,5 @@ def generate_launch_description():
         lio_sam_image_projection,
         lio_sam_feature_extraction,
         lio_sam_map_optimization,
-        # teleop,
         rviz,
     ])

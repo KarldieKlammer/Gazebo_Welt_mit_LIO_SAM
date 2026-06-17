@@ -98,13 +98,6 @@
     historyKeyframeSearchNum: 25                        # number of hostory key frames will be fused into a
     # submap for loop closure
     historyKeyframeFitnessScore: 0.3                    # icp threshold, the smaller the better alignment
- 
-    # # Loop closure
-    # historyKeyframeSearchRadius: 30.0     # war: 15.0
-    # historyKeyframeSearchTimeDiff: 60.0   # war: 30.0
-    # historyKeyframeSearchNum: 25          # ggf. auf 50 erhöhen
-    # historyKeyframeFitnessScore: 0.1      # war: 0.3
-    # loopClosureFrequency: 2.0             # war: 1.0 (öfter prüfen)
 
 
     # Visualization
@@ -113,42 +106,6 @@
     globalMapVisualizationLeafSize: 5.0                 # meters, global map visualization cloud density
     # Leaf size >= 5.0 m nötig: bei 1000m Radius überläuft PCL::VoxelGrid den int32-Index.
 
-
-
-
-
-
-
-    # # Feature-Extraktion: Simulation hat saubere Geometrie (kein Rauschen) →
-    # # Krümmungswerte sind deutlich kleiner als beim realen Ouster-Sensor.
-    # # edgeThreshold von 1.0 auf 0.1 senken damit überhaupt Kanten erkannt werden.
-    # # Mindestanzahl an den verfügbaren Bestand im Sonoma-Racetrack anpassen.
-    # edgeThreshold: 0.1
-    # edgeFeatureMinValidNum: 5
-    # surfFeatureMinValidNum: 30
-
-    # # Globale Map-Visualisierung: Standard 1.0m ist zu grob → Wolke sieht leer aus.
-    # # 0.2m gibt 125× mehr Punkte bei gleichem Speicherverbrauch in RViz.
-    # globalMapVisualizationLeafSize: 0.2
-
-    # # IMU-Rauschen: Simulation hat saubere IMU ohne Drift.
-    # # Kleine Werte → GTSAM vertraut der IMU stark → weniger Divergenz
-    # # bei schlechtem Scan-Matching (degenerierte Racetrack-Geometrie).
-    # imuAccNoise: 3.9939570888238808e-03
-    # imuGyrNoise: 1.5636343949698187e-03
-    # imuAccBiasN: 6.4356659353532566e-05
-    # imuGyrBiasN: 3.5640318696367613e-05
-
-    # # Extrinsik: Translation IMU → LiDAR im Fahrzeugkoordinatensystem
-    # # IMU-Link bei chassis z=0.50 m, LiDAR-Link bei chassis z=1.65 m
-    # # → reiner Z-Versatz von 1.15 m, keine Rotation (beide achsenparallel)
-    # extrinsicTrans: [0.0, 0.0, 1.15]
-    # extrinsicRot: [1.0, 0.0, 0.0,
-    #                0.0, 1.0, 0.0,
-    #                0.0, 0.0, 1.0]
-    # extrinsicRPY: [1.0, 0.0, 0.0,
-    #                0.0, 1.0, 0.0,
-    #                0.0, 0.0, 1.0]
 
 
 

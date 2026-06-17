@@ -84,6 +84,7 @@ Konfigurationsdatei: `config/params_sim.yaml`
 - `ros_gz_bridge` — bridged `/clock`, `/ouster/points`, `/imu/data`, `/model/prius_hybrid/odometry`
 - `robot_state_publisher` mit `config/robot_sim.urdf.xacro`
 - `gazebo_odom_tf`, `imu_world_orientation_relay`, `ouster_timestamp_relay`
+- `teleop_twist_keyboard` in eigenem xterm-Fenster (Parameter aus `config/teleop_params.yaml`)
 - RViz2 mit `config/rviz2_sim_Aeris.rviz`
 **Aufruf:** `ros2 launch autonomous_driving sim_Aeris.launch.py`
 **Letzte Änderung:** 2026-06-12
@@ -95,6 +96,7 @@ Konfigurationsdatei: `config/params_sim.yaml`
 | Datei | Zweck |
 |---|---|
 | `params_sim.yaml` | Parameter für alle Sim-Nodes (Spawn-Pose, Topics, LiDAR-Einstellungen) |
+| `teleop_params.yaml` | Startwerte für teleop_twist_keyboard (`speed`, `turn`) |
 | `robot_sim.urdf.xacro` | URDF/Xacro-Robotermodell für die Simulation |
 | `rviz2_sim_Aeris.rviz` | RViz2-Konfiguration für die Simulation |
 | `gazebo_gui.config` | Gazebo-GUI-Layout |
