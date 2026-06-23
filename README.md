@@ -76,13 +76,49 @@ Details: [ADR-002](../../docs/adr/ADR_002_gazebo_liosam_hilfsnode_analyse.md)
 
 ---
 
-## Abhängigkeiten
+## Installation
 
-- `ros_gz_sim` — Gazebo (Ignition/Harmonic 8.14) Integration
-- `ros_gz_bridge` — ROS ↔ Gazebo Topic-Bridge
-- `lio_sam` — LiDAR-Odometrie und SLAM
-- `robot_state_publisher`, `tf2_ros`
-- `rviz2`
+### Voraussetzungen
+
+- **Ubuntu 24.04** Noble
+- **ROS2 Jazzy** (nicht Humble — Bridge-API und Paketnamen unterscheiden sich)
+- **Gazebo Harmonic 8.14** (zwingend — `<localization>ENU</localization>` ist gz-sensors8-spezifisch)
+
+### Abhängigkeiten installieren
+
+```bash
+# Gazebo Harmonic
+sudo apt install gz-harmonic
+sudo apt install ros-jazzy-ros-gz-sim ros-jazzy-ros-gz-bridge
+
+# ROS2-Pakete
+sudo apt install \
+  ros-jazzy-robot-state-publisher \
+  ros-jazzy-tf2-ros \
+  ros-jazzy-rviz2 \
+  ros-jazzy-nav-msgs \
+  ros-jazzy-sensor-msgs
+
+# Python
+sudo apt install python3-numpy
+```
+
+### Package einbinden
+
+```bash
+# In den src/-Ordner des Workspaces legen
+cd ~/ros2_ws/src
+git clone <bundle-oder-repo-url> autonomous_driving
+
+# LIO-SAM ebenfalls in src/ einrichten (separat)
+
+# Workspace bauen
+cd ~/ros2_ws
+colcon build --symlink-install
+source install/setup.bash
+```
+
+> **Hinweis:** LIO-SAM muss separat installiert und gebaut werden. Das Package erwartet LIO-SAM im selben Workspace unter `src/LIO-SAM/`. Die LIO-SAM-Parameter für die Simulation liegen in `config/params_sim.yaml` dieses Packages.
 
 ---
 
