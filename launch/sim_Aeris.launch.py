@@ -76,48 +76,7 @@ def generate_launch_description():
         output='screen',
     )
 
-    # # ------------------------------------------------------------------
-    # # Gazebo-Odometrie → odom → chassis TF
-    # # Das AckermannSteering-Plugin integriert Radgeschwindigkeiten ab (0,0,0),
-    # # liefert damit eine korrekte relative Odometrie für den TF-Baum.
-    # # Sobald LIO-SAM's TransformFusion läuft, überschreibt es diesen Transform
-    # # automatisch (TF2 bevorzugt immer den aktuellsten Timestamp).
-    # # ------------------------------------------------------------------
-    # gazebo_odom_tf = Node(
-    #     package='autonomous_driving',
-    #     executable='gazebo_odom_tf',
-    #     name='gazebo_odom_tf',
-    #     parameters=[{
-    #         'use_sim_time': True,
-    #         'odom_topic': '/model/prius_hybrid/odometry',
-    #         'odom_frame': 'odom',
-    #         'base_frame': 'chassis',
-    #     }],
-    #     output='screen',
-    # )
 
-    # # ------------------------------------------------------------------
-    # # IMU World-Orientation Relay
-    # # gz-sim IMU reports orientation relative to its own initial pose
-    # # (identity), ignoring <localization>WORLD</localization>.
-    # # This node prefixes the known spawn orientation so LIO-SAM receives
-    # # correct world-frame heading from the start.
-    # # Spawn pose from SDF: roll=0.02, pitch=0, yaw=0.97 rad
-    # # ------------------------------------------------------------------
-    # imu_world_relay = Node(
-    #     package='autonomous_driving',
-    #     executable='imu_world_orientation_relay',
-    #     name='imu_world_orientation_relay',
-    #     parameters=[{
-    #         'use_sim_time': True,
-    #         'spawn_roll':  0.02,
-    #         'spawn_pitch': 0.0,
-    #         'spawn_yaw':   0.97,
-    #         'input_topic':  '/imu/data',
-    #         'output_topic': '/imu/data_world',
-    #     }],
-    #     output='screen',
-    # )
 
     # ------------------------------------------------------------------
     # Ouster Timestamp Relay
@@ -243,8 +202,6 @@ def generate_launch_description():
         set_gz_resource_path,
         gazebo,
         bridge,
-        # gazebo_odom_tf,
-        # imu_world_relay,
         ouster_timestamp_relay,
         tf_map_odom,
         tf_lidar_alias,
