@@ -1,9 +1,12 @@
 import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.actions import (
+    IncludeLaunchDescription,
+    AppendEnvironmentVariable,
+)
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration, Command
+from launch.substitutions import Command
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
 
@@ -11,6 +14,14 @@ from launch_ros.parameter_descriptions import ParameterValue
 def generate_launch_description():
     pkg_sim = get_package_share_directory('autonomous_driving')
     # pkg_lio_sam = get_package_share_directory('lio_sam')
+
+    # Gazebo findet die paketinternen Modelle (model://sonoma_raceway,
+    # model://prius_hybrid) über diesen Resource-Pfad. Macht das Package
+    # selbst-enthalten – keine Abhängigkeit vom Fuel-Cache des Users.
+    models_path = os.path.join(pkg_sim, 'models')
+    set_gz_resource_path = AppendEnvironmentVariable(
+        'GZ_SIM_RESOURCE_PATH', models_path
+    )
 
     world_file = os.path.join(pkg_sim, 'worlds', 'Sonoma_world.sdf')
     gui_config = os.path.join(pkg_sim, 'config', 'gazebo_gui.config')
@@ -57,51 +68,56 @@ def generate_launch_description():
             '/cmd_vel@geometry_msgs/msg/Twist]gz.msgs.Twist',
         ],
         parameters=[{'use_sim_time': True}],
+        ros_arguments=[
+            '-p', 'qos_overrides./imu/data.publisher.depth:=200',
+            '-p', 'qos_overrides./imu/data.publisher.history:=keep_last',
+            '-p', 'qos_overrides./imu/data.publisher.reliability:=reliable',
+        ],
         output='screen',
     )
 
-    # ------------------------------------------------------------------
-    # Gazebo-Odometrie → odom → chassis TF
-    # Das AckermannSteering-Plugin integriert Radgeschwindigkeiten ab (0,0,0),
-    # liefert damit eine korrekte relative Odometrie für den TF-Baum.
-    # Sobald LIO-SAM's TransformFusion läuft, überschreibt es diesen Transform
-    # automatisch (TF2 bevorzugt immer den aktuellsten Timestamp).
-    # ------------------------------------------------------------------
-    gazebo_odom_tf = Node(
-        package='autonomous_driving',
-        executable='gazebo_odom_tf',
-        name='gazebo_odom_tf',
-        parameters=[{
-            'use_sim_time': True,
-            'odom_topic': '/model/prius_hybrid/odometry',
-            'odom_frame': 'odom',
-            'base_frame': 'chassis',
-        }],
-        output='screen',
-    )
+    # # ------------------------------------------------------------------
+    # # Gazebo-Odometrie → odom → chassis TF
+    # # Das AckermannSteering-Plugin integriert Radgeschwindigkeiten ab (0,0,0),
+    # # liefert damit eine korrekte relative Odometrie für den TF-Baum.
+    # # Sobald LIO-SAM's TransformFusion läuft, überschreibt es diesen Transform
+    # # automatisch (TF2 bevorzugt immer den aktuellsten Timestamp).
+    # # ------------------------------------------------------------------
+    # gazebo_odom_tf = Node(
+    #     package='autonomous_driving',
+    #     executable='gazebo_odom_tf',
+    #     name='gazebo_odom_tf',
+    #     parameters=[{
+    #         'use_sim_time': True,
+    #         'odom_topic': '/model/prius_hybrid/odometry',
+    #         'odom_frame': 'odom',
+    #         'base_frame': 'chassis',
+    #     }],
+    #     output='screen',
+    # )
 
-    # ------------------------------------------------------------------
-    # IMU World-Orientation Relay
-    # gz-sim IMU reports orientation relative to its own initial pose
-    # (identity), ignoring <localization>WORLD</localization>.
-    # This node prefixes the known spawn orientation so LIO-SAM receives
-    # correct world-frame heading from the start.
-    # Spawn pose from SDF: roll=0.02, pitch=0, yaw=0.97 rad
-    # ------------------------------------------------------------------
-    imu_world_relay = Node(
-        package='autonomous_driving',
-        executable='imu_world_orientation_relay',
-        name='imu_world_orientation_relay',
-        parameters=[{
-            'use_sim_time': True,
-            'spawn_roll':  0.02,
-            'spawn_pitch': 0.0,
-            'spawn_yaw':   0.97,
-            'input_topic':  '/imu/data',
-            'output_topic': '/imu/data_world',
-        }],
-        output='screen',
-    )
+    # # ------------------------------------------------------------------
+    # # IMU World-Orientation Relay
+    # # gz-sim IMU reports orientation relative to its own initial pose
+    # # (identity), ignoring <localization>WORLD</localization>.
+    # # This node prefixes the known spawn orientation so LIO-SAM receives
+    # # correct world-frame heading from the start.
+    # # Spawn pose from SDF: roll=0.02, pitch=0, yaw=0.97 rad
+    # # ------------------------------------------------------------------
+    # imu_world_relay = Node(
+    #     package='autonomous_driving',
+    #     executable='imu_world_orientation_relay',
+    #     name='imu_world_orientation_relay',
+    #     parameters=[{
+    #         'use_sim_time': True,
+    #         'spawn_roll':  0.02,
+    #         'spawn_pitch': 0.0,
+    #         'spawn_yaw':   0.97,
+    #         'input_topic':  '/imu/data',
+    #         'output_topic': '/imu/data_world',
+    #     }],
+    #     output='screen',
+    # )
 
     # ------------------------------------------------------------------
     # Ouster Timestamp Relay
@@ -224,10 +240,11 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
+        set_gz_resource_path,
         gazebo,
         bridge,
-        gazebo_odom_tf,
-        imu_world_relay,
+        # gazebo_odom_tf,
+        # imu_world_relay,
         ouster_timestamp_relay,
         tf_map_odom,
         tf_lidar_alias,

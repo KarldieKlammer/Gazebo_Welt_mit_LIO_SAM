@@ -4,6 +4,19 @@ from setuptools import find_packages, setup
 
 package_name = 'autonomous_driving'
 
+
+def package_data_files(root_dir):
+    """Sammelt alle Dateien unter root_dir rekursiv und erhält dabei die
+    Verzeichnisstruktur, damit sie unter share/<pkg>/<root_dir>/... installiert
+    werden (für selbst-enthaltene Gazebo-Modelle mit meshes/ und materials/)."""
+    entries = []
+    for dirpath, _dirnames, filenames in os.walk(root_dir):
+        files = [os.path.join(dirpath, f) for f in filenames]
+        if files:
+            entries.append((os.path.join('share', package_name, dirpath), files))
+    return entries
+
+
 setup(
     name=package_name,
     version='0.0.0',
@@ -18,7 +31,7 @@ setup(
             glob('worlds/*.sdf')),
         (os.path.join('share', package_name, 'config'),
             glob('config/*')),
-    ],
+    ] + package_data_files('models'),
     install_requires=['setuptools'],
     zip_safe=True,
     maintainer='R.W.',

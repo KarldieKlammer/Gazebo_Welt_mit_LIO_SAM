@@ -6,10 +6,10 @@
     # Topics
     # Gazebo gpu_lidar erzeugt kein 't'-Feld; der ouster_timestamp_relay-Node
     # fügt es synthetisch hinzu und publiziert auf diesem Topic.
-    pointCloudTopic: "/ouster/points_timestamped"                   # Point cloud data
+    pointCloudTopic: "/ouster/points" #_timestamped"                   # Point cloud data
     # IMU-Topic: imu_world_orientation_relay korrigiert die Orientierung
     # auf Weltkoordinaten (gz-sim ignoriert <localization>WORLD</localization>).
-    imuTopic: "/imu/data_world"                         # IMU data    /novatel/oem7/imu/data_raw
+    imuTopic: "/imu/data"                         # IMU data    /novatel/oem7/imu/data_raw
     odomTopic: "odometry/imu"                           # IMU pre-preintegration odometry, same frequency as IMU
     #gpsTopic: "odometry/gpsz"                          # GPS odometry topic from navsat, see module_navsat.launch file
  

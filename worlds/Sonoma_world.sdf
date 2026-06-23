@@ -91,7 +91,7 @@
         <collision name='collision'>
           <geometry>
             <mesh>
-              <uri>file:///home/rlab11x/.gz/fuel/fuel.ignitionrobotics.org/openrobotics/models/sonoma raceway/3/meshes/Raceway.obj</uri>
+              <uri>model://sonoma_raceway/meshes/Raceway.obj</uri>
               <scale>0.025399999999999999 0.025399999999999999 0.025399999999999999</scale>
             </mesh>
           </geometry>
@@ -99,7 +99,7 @@
         <visual name='visual'>
           <geometry>
             <mesh>
-              <uri>file:///home/rlab11x/.gz/fuel/fuel.ignitionrobotics.org/openrobotics/models/sonoma raceway/3/meshes/Raceway.obj</uri>
+              <uri>model://sonoma_raceway/meshes/Raceway.obj</uri>
               <scale>0.025399999999999999 0.025399999999999999 0.025399999999999999</scale>
             </mesh>
           </geometry>
@@ -139,7 +139,7 @@
         <visual name='chassis_visual'>
           <geometry>
             <mesh>
-              <uri>file:///home/rlab11x/.gz/fuel/fuel.ignitionrobotics.org/openrobotics/models/prius hybrid/2/meshes/Hybrid.obj</uri>
+              <uri>model://prius_hybrid/meshes/Hybrid.obj</uri>
               <scale>0.01 0.01 0.01</scale>
               <submesh>
                 <name>Hybrid</name>
@@ -151,7 +151,7 @@
         <visual name='interior_visual'>
           <geometry>
             <mesh>
-              <uri>file:///home/rlab11x/.gz/fuel/fuel.ignitionrobotics.org/openrobotics/models/prius hybrid/2/meshes/Hybrid.obj</uri>
+              <uri>model://prius_hybrid/meshes/Hybrid.obj</uri>
               <scale>0.01 0.01 0.01</scale>
               <submesh>
                 <name>Hybrid_Interior</name>
@@ -163,7 +163,7 @@
         <visual name='windows_visual'>
           <geometry>
             <mesh>
-              <uri>file:///home/rlab11x/.gz/fuel/fuel.ignitionrobotics.org/openrobotics/models/prius hybrid/2/meshes/Hybrid.obj</uri>
+              <uri>model://prius_hybrid/meshes/Hybrid.obj</uri>
               <scale>0.01 0.01 0.01</scale>
               <submesh>
                 <name>Hybrid_Windows</name>
@@ -535,7 +535,7 @@
           <pose>0 0 0 1.302101 0 0</pose>
           <geometry>
             <mesh>
-              <uri>file:///home/rlab11x/.gz/fuel/fuel.ignitionrobotics.org/openrobotics/models/prius hybrid/2/meshes/Hybrid.obj</uri>
+              <uri>model://prius_hybrid/meshes/Hybrid.obj</uri>
               <scale>0.01 0.01 0.01</scale>
               <submesh>
                 <name>Steering_Wheel</name>
@@ -564,7 +564,7 @@
           <pose>0.040000000000000001 0 0 0 0 0</pose>
           <geometry>
             <mesh>
-              <uri>file:///home/rlab11x/.gz/fuel/fuel.ignitionrobotics.org/openrobotics/models/prius hybrid/2/meshes/Hybrid.obj</uri>
+              <uri>model://prius_hybrid/meshes/Hybrid.obj</uri>
               <scale>0.01 0.01 0.01</scale>
               <submesh>
                 <name>Wheel_Front_Left_</name>
@@ -619,7 +619,7 @@
           <pose>0 0 0 0 0 0</pose>
           <geometry>
             <mesh>
-              <uri>file:///home/rlab11x/.gz/fuel/fuel.ignitionrobotics.org/openrobotics/models/prius hybrid/2/meshes/Hybrid.obj</uri>
+              <uri>model://prius_hybrid/meshes/Hybrid.obj</uri>
               <scale>0.01 0.01 0.01</scale>
               <submesh>
                 <name>Wheel_Front_Right</name>
@@ -673,7 +673,7 @@
           <pose>0.040000000000000001 0 0 0 0 0</pose>
           <geometry>
             <mesh>
-              <uri>file:///home/rlab11x/.gz/fuel/fuel.ignitionrobotics.org/openrobotics/models/prius hybrid/2/meshes/Hybrid.obj</uri>
+              <uri>model://prius_hybrid/meshes/Hybrid.obj</uri>
               <scale>0.01 0.01 0.01</scale>
               <submesh>
                 <name>Wheel_Front_Left_</name>
@@ -727,7 +727,7 @@
           <pose>-0.040000000000000001 0 0 0 0 0</pose>
           <geometry>
             <mesh>
-              <uri>file:///home/rlab11x/.gz/fuel/fuel.ignitionrobotics.org/openrobotics/models/prius hybrid/2/meshes/Hybrid.obj</uri>
+              <uri>model://prius_hybrid/meshes/Hybrid.obj</uri>
               <scale>0.01 0.01 0.01</scale>
               <submesh>
                 <name>Wheel_Front_Right</name>
@@ -1117,7 +1117,7 @@
           <update_rate>200</update_rate>
           <imu>
             <orientation_reference_frame>
-              <localization>WORLD</localization>
+              <localization>ENU</localization>
             </orientation_reference_frame>
             <angular_velocity>
               <x><noise type='gaussian'><mean>0</mean><stddev>0.0002</stddev><dynamic_bias_stddev>0.000006</dynamic_bias_stddev></noise></x>
